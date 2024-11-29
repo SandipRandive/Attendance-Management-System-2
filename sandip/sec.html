@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Attendance Management System</title>
+<style>
+body {
+font-family: Arial, sans-serif;
+margin: 0;
+padding: 0;
+background-color: #f4f4f9;
+}
+header {
+background-color: #007bff;
+color: white;
+padding: 10px 20px;
+text-align: center;
+}
+main {
+padding: 20px;
+}
+.hidden {
+display: none;
+}
+
+form {
+margin: 20px 0;
+max-width: 400px;
+}
+input, select, button {
+width: 100%;
+padding: 10px;
+margin: 10px 0;
+border: 1px solid #ccc;
+border-radius: 4px;
+}
+button {
+background-color: #007bff;
+color: white;
+border: none;
+cursor: pointer;
+}
+button:hover {
+background-color: #0056b3;
+}
+table {
+width: 100%;
+border-collapse: collapse;
+margin-top: 20px;
+}
+th, td {
+padding: 10px;
+
+border: 1px solid #ccc;
+text-align: left;
+}
+th {
+background-color: #007bff;
+color: white;
+}
+</style>
+</head>
+<body>
+<header>
+<h1>Attendance Management System</h1>
+</header>
+<main>
+<!-- Login Section -->
+<section id="loginSection">
+<h2>Login</h2>
+<form id="loginForm">
+<input type="email" id="email" placeholder="Email" required>
+<input type="password" id="password" placeholder="Password" required>
+<button type="submit">Login</button>
+</form>
+</section>
+
+<!-- Dashboard Section -->
+<section id="dashboardSection" class="hidden">
+<h2>Dashboard</h2>
+
+<table>
+<thead>
+<tr>
+<th>Date</th>
+<th>Status</th>
+<th>Remarks</th>
+</tr>
+</thead>
+<tbody id="attendanceTable">
+<!-- Dynamic Data -->
+</tbody>
+</table>
+<button onclick="showAddAttendance()">Add Attendance</button>
+</section>
+
+<!-- Add Attendance Section -->
+<section id="addAttendanceSection" class="hidden">
+<h2>Add Attendance</h2>
+<form id="addAttendanceForm">
+<input type="number" id="userId" placeholder="User ID" required>
+<input type="date" id="date" required>
+<select id="status" required>
+<option value="Present">Present</option>
+<option value="Absent">Absent</option>
+<option value="Late">Late</option>
+</select>
+<input type="text" id="remarks" placeholder="Remarks (optional)">
+
+<button type="submit">Submit</button>
+</form>
+<button onclick="showDashboard()">Back to Dashboard</button>
+</section>
+</main>
+
+<script>
+// Mock Data (Simulates Server Responses)
+const mockAttendanceData = [
+{ date: '2024-11-17', status: 'Present', remarks: 'On time' },
+{ date: '2024-11-18', status: 'Absent', remarks: 'Sick leave' }
+];
+
+// Show Dashboard Section
+function showDashboard() {
+document.getElementById('loginSection').classList.add('hidden');
+document.getElementById('addAttendanceSection').classList.add('hidden');
+document.getElementById('dashboardSection').classList.remove('hidden');
+loadAttendance();
+}
+
+// Show Add Attendance Section
+function showAddAttendance() {
+document.getElementById('dashboardSection').classList.add('hidden');
+document.getElementById('addAttendanceSection').classList.remove('hidden');
+}
+
+// Load Attendance Data
+function loadAttendance() {
+const table = document.getElementById('attendanceTable');
+table.innerHTML = mockAttendanceData.map(record => `
+<tr>
+<td>${record.date}</td>
+<td>${record.status}</td>
+<td>${record.remarks}</td>
+</tr>
+`).join('');
+}
+
+// Handle Login Form Submission
+document.getElementById('loginForm').addEventListener('submit', function (e) {
+e.preventDefault();
+const email = document.getElementById('email').value;
+const password = document.getElementById('password').value;
+
+// Simulate Login Validation
+if (email === 'user@example.com' && password === 'password123') {
+alert('Login Successful!');
+showDashboard();
+} else {
+alert('Invalid email or password.');
+}
+});
+// Handle Add Attendance Form Submission
+
+document.getElementById('addAttendanceForm').addEventListener('submit', function (e) {
+e.preventDefault();
+const newRecord = {
+date: document.getElementById('date').value,
+status: document.getElementById('status').value,
+remarks: document.getElementById('remarks').value || 'No remarks'
+};
+// Add to Mock Data
+mockAttendanceData.push(newRecord);
+alert('Attendance Added Successfully!');
+showDashboard();
+});
+</script>
+</body>
+</html>
